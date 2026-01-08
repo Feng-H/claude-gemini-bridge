@@ -201,7 +201,7 @@ npm install
 
 #### 2. 配置 MCP Server
 
-编辑 `~/.claude/mcp.json`（如果不存在则创建）：
+创建 `~/.claude/.mcp.json`（如果不存在则创建）：
 
 ```json
 {
@@ -470,7 +470,7 @@ Gemini 不了解当前对话，提供必要背景：
 
 ```bash
 # 检查配置
-cat ~/.claude/mcp.json
+cat ~/.claude/.mcp.json
 
 # 检查文件权限
 ls -la gemini-mcp-server/src/index.js

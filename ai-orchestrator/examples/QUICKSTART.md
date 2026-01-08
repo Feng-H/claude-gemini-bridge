@@ -11,7 +11,7 @@
 gemini --version
 
 # 2. 检查全局配置已就位
-ls ~/.claude/mcp.json                      # ✅ MCP Server 配置
+ls ~/.claude/.mcp.json                     # ✅ MCP Server 配置
 ls ~/.claude/skills/ai-compare/SKILL.md    # ✅ AI 对比技能
 ls ~/.claude/agents/multi-ai-orchestrator/AGENT.md  # ✅ 多 AI 协作器
 
@@ -28,7 +28,7 @@ npm install  # 如果还没安装
 
 | 组件 | 全局位置 | 状态 |
 |------|---------|------|
-| **MCP Server** | `~/.claude/mcp.json` | ✅ 已配置 |
+| **MCP Server** | `~/.claude/.mcp.json` | ✅ 已配置 |
 | **ai-compare Skill** | `~/.claude/skills/ai-compare/` | ✅ 已就位 |
 | **multi-ai-orchestrator Agent** | `~/.claude/agents/multi-ai-orchestrator/` | ✅ 已就位 |
 

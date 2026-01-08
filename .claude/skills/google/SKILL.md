@@ -1,18 +1,51 @@
 ---
 name: google
-description: Explicitly call Gemini AI (Google's AI) for any task. Use when user says "/google" or wants Gemini's response specifically. Bypasses web search and other tools.
+description: Call Gemini AI (Google's AI) for any task. Triggered by "/google" command OR when user explicitly asks to "Google搜索", "用Gemini检索", "让Gemini搜索", "问Gemini", "Google一下", "通过Gemini查询", "使用Gemini", "Gemini回答". Bypasses web search and provides direct AI response.
 allowed-tools: gemini_chat, gemini_model_info
 ---
 
 # Google Gemini Direct Call Skill
 
-This skill provides a direct way to call Google's Gemini AI using the `/google` slash command.
+This skill provides a direct way to call Google's Gemini AI using either the `/google` slash command OR semantic recognition when you explicitly ask to search/query with Gemini.
 
 ## How to Use
 
-### Slash Command
+### Method 1: Slash Command
 ```
 /google [your prompt or question]
+```
+
+### Method 2: Semantic Trigger (Natural Language)
+
+You can also trigger this skill by using natural language - no slash command needed! Just use phrases like:
+
+**中文触发词:**
+- "用 Gemini 检索..."
+- "让 Gemini 搜索..."
+- "问 Gemini..."
+- "Google 一下..."
+- "通过 Gemini 查询..."
+- "使用 Gemini..."
+- "让 Gemini 回答..."
+
+**English trigger phrases:**
+- "Use Gemini to search..."
+- "Let Gemini query..."
+- "Ask Gemini..."
+- "Google this with Gemini..."
+- "Through Gemini search..."
+- "Use Gemini for..."
+
+**Examples:**
+```
+User: 用 Gemini 检索最新的 React 19 特性
+→ Automatically triggers gemini_chat
+
+User: Let Gemini search for Python best practices
+→ Automatically triggers gemini_chat
+
+User: 问 Gemini: 什么是量子计算？
+→ Automatically triggers gemini_chat
 ```
 
 ### Examples
@@ -50,21 +83,50 @@ Gemini's Explanation:
 
 ## When to Use This Skill
 
-Use the `/google` command when you want to:
-1. Get Gemini's opinion specifically
-2. Compare with your own knowledge
-3. See how Gemini approaches a problem
-4. Use Gemini for specific tasks (coding, writing, analysis)
-5. Bypass web search and get direct AI response
+This skill activates when you want Gemini's specific input:
+
+**Explicit Intent Indicators:**
+1. You use the `/google` slash command
+2. You explicitly say "用Gemini检索" (Use Gemini to search)
+3. You say "让Gemini搜索" (Let Gemini search)
+4. You say "问Gemini" (Ask Gemini)
+5. You say "Google一下" or "Google检索"
+6. You say "通过Gemini查询" (Query through Gemini)
+7. You say "使用Gemini" (Use Gemini)
+8. You say "让Gemini回答" (Let Gemini answer)
+
+**Use Cases:**
+- Get Gemini's opinion specifically
+- Compare with Claude's knowledge
+- See how Gemini approaches a problem
+- Use Gemini for specific tasks (coding, writing, analysis)
+- Bypass web search and get direct AI response
+- Get a second AI perspective on any topic
 
 ## Workflow
 
-When user invokes `/google`:
+### Trigger Methods
 
+**Method 1: Slash Command (`/google`)**
 1. **Parse the prompt**: Extract everything after `/google`
 2. **Call Gemini**: Use `gemini_chat` tool with the prompt
 3. **Present response**: Display Gemini's response clearly
 4. **Optional follow-up**: Ask if user wants Claude's analysis/comparison
+
+**Method 2: Semantic Recognition**
+1. **Detect intent**: User uses phrases like "用Gemini检索", "让Gemini搜索", "问Gemini", etc.
+2. **Extract query**: Parse the search/question content from user message
+3. **Call Gemini**: Use `gemini_chat` tool with the extracted query
+4. **Present response**: Display Gemini's response clearly
+5. **Optional follow-up**: Ask if user wants Claude's analysis/comparison
+
+### Response Handling
+
+For BOTH trigger methods:
+- Send the user's query directly to Gemini (no modification)
+- Label the response clearly as "Gemini's Response"
+- Don't add Claude's own analysis unless asked
+- Offer comparison/analysis if relevant
 
 ## Response Format
 
@@ -198,6 +260,62 @@ React 2024 introduces several new features including...
 💡 Note: This is from Gemini's knowledge, not live web search.
 ```
 
+### Example 6: Semantic Trigger - Chinese (Natural Language)
+```
+User: 用 Gemini 检索 Python 机器学习库推荐
+
+Claude: 我来让 Gemini 为你检索...
+
+## Gemini's Response:
+以下是几个推荐的Python机器学习库...
+[Full response]
+
+---
+💡 想要我的分析或对比吗？
+```
+
+### Example 7: Semantic Trigger - English (Natural Language)
+```
+User: Ask Gemini to explain the difference between SQL and NoSQL databases
+
+Claude: Let me ask Gemini that for you...
+
+## Gemini's Response:
+The main differences between SQL and NoSQL databases are...
+[Full explanation]
+
+---
+💡 Want me to add my perspective or compare with Gemini's answer?
+```
+
+### Example 8: Semantic Trigger with "Google一下"
+```
+User: Google一下 2025年最流行的编程语言
+
+Claude: 让 Gemini 帮你搜索一下...
+
+## Gemini's Response:
+根据2025年的趋势，最流行的编程语言包括...
+[Full response]
+
+---
+💡 需要我补充说明吗？
+```
+
+### Example 9: Semantic Trigger with "问Gemini"
+```
+User: 问 Gemini: 如何优化 React 组件性能？
+
+Claude: 我来询问 Gemini...
+
+## Gemini's Response:
+优化React组件性能的几种方法...
+[Detailed answer]
+
+---
+💡 要我提供额外的优化建议吗？
+```
+
 ## Error Handling
 
 If `gemini_chat` fails:
@@ -273,12 +391,31 @@ The `/google` command:
 
 ## Summary
 
-The `/google` command is:
+This Google Gemini skill provides TWO ways to access Gemini AI:
+
+### 🎯 Trigger Methods:
+1. **Slash Command**: `/google [your query]`
+2. **Semantic Recognition**: Natural language triggers like:
+   - "用Gemini检索..." (Use Gemini to search...)
+   - "让Gemini搜索..." (Let Gemini search...)
+   - "问Gemini..." (Ask Gemini...)
+   - "Google一下..." (Google it...)
+   - "通过Gemini查询..." (Query through Gemini...)
+   - "使用Gemini..." (Use Gemini...)
+   - "让Gemini回答..." (Let Gemini answer...)
+
+### ✨ Characteristics:
 - **Direct**: Straight to Gemini AI, no detours
 - **Clear**: Always labeled as Gemini's response
 - **Fast**: No unnecessary processing
-- **Optional**: Easy to ask for Claude's input afterward
+- **Flexible**: Use slash command OR natural language
 - **Bypass**: Avoids web search and other tools
-- **Simple**: Just "/google" followed by your question
+- **Smart**: Semantic recognition understands your intent
 
-Use it whenever you want Gemini's specific input on anything!
+### 💡 Best For:
+- Getting Gemini's specific input on anything
+- Comparing AI perspectives
+- Quick second opinions
+- Bypassing web search for direct AI responses
+
+Use it whenever you want Gemini's input - either with `/google` or just ask naturally!
