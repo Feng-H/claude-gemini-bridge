@@ -78,6 +78,12 @@ claude-gemini-bridge/
 - 作为 Claude 的备用
 - 获取不同的 AI 视角
 
+**⚠️ 重要说明**:
+- `gemini_chat` 调用的是 **Gemini CLI**，不是网页检索工具
+- `WebSearch` 是 Claude Code **内置的网页搜索工具**，与 Gemini 无关
+- 如果需要 Gemini 的 Google Search 能力，需要在 Gemini CLI 中单独配置
+- 本项目的 `gemini_chat` 主要用于获取 Gemini AI 的对话响应，不包含网页检索功能
+
 ### 场景 3: 智能项目分析 📊
 
 使用 **gemini-analyzer Skill** 🆕
@@ -291,10 +297,21 @@ ln -s /Users/apple/claudecode/claude-gemini-bridge/ai-orchestrator/.claude .clau
 
 **参数：**
 - `prompt` (必需): 提示词
-- `model` (可选): 模型名称
+- `model` (可选): 模型名称（**不推荐指定**，让 Gemini CLI 自动选择默认模型）
+
+**⚠️ 重要提示**:
+- **不要指定 model 参数**，让系统自动选择默认模型
+- 指定具体模型可能导致 "Requested entity was not found" 错误
+- Gemini CLI 会根据配置自动选择最合适的模型
 
 **示例：**
 ```javascript
+// ✅ 推荐：不指定模型
+{
+  "prompt": "解释 React Hooks"
+}
+
+// ❌ 不推荐：指定模型（可能导致调用失败）
 {
   "prompt": "解释 React Hooks",
   "model": "gemini-2.0-flash-exp"
@@ -323,7 +340,7 @@ ln -s /Users/apple/claudecode/claude-gemini-bridge/ai-orchestrator/.claude .clau
   - `bugs` - Bug 检测
   - `review` - 全面项目审查
   - `general` - 综合分析（默认）
-- `model` (可选): Gemini 模型名称
+- `model` (可选): Gemini 模型名称（**不推荐指定**）
 
 **支持的文件类型：**
 - 代码: .js, .ts, .jsx, .tsx, .py, .java, .go, .rs, .cpp, .c, .cs, .sh, .bash, .ps1, .php, .rb 等
@@ -356,7 +373,7 @@ ln -s /Users/apple/claudecode/claude-gemini-bridge/ai-orchestrator/.claude .clau
 
 **参数：**
 - `project_path` (可选): 项目路径，默认当前目录
-- `model` (可选): Gemini 模型名称
+- `model` (可选): Gemini 模型名称（**不推荐指定**）
 
 **示例：**
 ```javascript

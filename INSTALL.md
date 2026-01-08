@@ -238,6 +238,64 @@ export GEMINI_TIMEOUT=120000  # 120秒
 
 ## 配置说明
 
+### 配置层级说明
+
+Claude Code 支持**两个配置层级**，理解它们的区别很重要：
+
+#### 1. 用户级别配置（User Level）**推荐用于 MCP Server**
+
+**配置文件**: `~/.claude/mcp.json`（用户主目录）
+
+**适用场景**:
+- ✅ **MCP Server 配置**（如本项目的 Gemini MCP Server）
+- ✅ 全局可用的工具和服务
+- ✅ 需要在所有项目中使用的功能
+
+**优势**:
+- 一次配置，所有项目可用
+- 适合系统级工具（如 Gemini CLI）
+- 避免重复配置
+
+**示例**:
+```json
+{
+  "mcpServers": {
+    "gemini": {
+      "command": "node",
+      "args": [
+        "/Users/apple/claudecode/claude-gemini-bridge/gemini-mcp-server/src/index.js"
+      ]
+    }
+  }
+}
+```
+
+#### 2. 项目级别配置（Project Level）
+
+**配置文件**: `.claude/settings.json`（项目根目录）
+
+**适用场景**:
+- ✅ 项目特定的 Skills 和 Agents
+- ✅ 仅在当前项目中需要的工具
+- ✅ 需要提交到版本控制的配置
+
+**限制**:
+- 仅在当前项目生效
+- 不适合配置 MCP Server（MCP Server 应该在用户级别配置）
+
+**示例**:
+```json
+{
+  "skills": ["my-custom-skill"],
+  "mcpServers": {}  // 空的，MCP Server 应该在 ~/.claude/mcp.json 配置
+}
+```
+
+**⚠️ 重要提示**:
+- **MCP Server 应该在用户级别（~/.claude/mcp.json）配置**
+- **Skills 和 Agents 可以放在项目目录，Claude Code 会自动加载**
+- 不要在项目级别配置 MCP Server，这会导致重复配置
+
 ### MCP Server 配置详解
 
 **完整配置示例**:
